@@ -180,6 +180,7 @@ function rendre(){
         + (r.resume ? '<span class="cth">' + r.resume.slice(0, 88) + (r.resume.length > 88 ? '…' : '') + '</span>' : '')
         + '<span class="cm">' + (r.prix_ttc ? eur(r.prix_ttc) : 'à paraître')
         + (r.tirage ? '<span class="dot"></span>' + nf(r.tirage) + ' ex' : '') + '</span>';
+      b.dataset.id = r.id;
       b.onclick = () => basculer(r, b, g);
       g.appendChild(b);
     });
@@ -210,5 +211,36 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape' && open) { open.panneau.remove();
     open.carte.setAttribute('aria-expanded', 'false'); open = null; }
 });
-rendre();
+
+/* Liens profonds : #t-<id> ouvre un titre, #c-<collection> filtre une collection.
+   Sert aux newsletters pros — le lecteur arrive sur le bon titre, pas en haut de page. */
+const slug = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+function ancre(){
+  const h = decodeURIComponent(location.hash.replace(/^#/, '')).trim();
+  if (!h) return null;
+  if (/^t-/.test(h)) {
+    const r = ROWS.find(x => String(x.id) === h.slice(2));
+    if (r) return { row: r };
+  }
+  const cle = h.replace(/^c-/, '');
+  const c = chapitres().find(x => slug(x.id) === cle);
+  return c ? { col: c.id } : null;
+}
+function aller(){
+  const a = ancre();
+  query = ''; if ($('#q')) $('#q').value = '';
+  if (!a) { active = null; rendre(); return; }
+  active = a.col || a.row.collection;
+  rendre();
+  if (a.col) {
+    const s = document.querySelector('.chapter');
+    if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+  const b = document.querySelector('.card[data-id="' + a.row.id + '"]');
+  if (b) { b.click(); b.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+}
+window.addEventListener('hashchange', aller);
+aller();
 </script></body></html>
