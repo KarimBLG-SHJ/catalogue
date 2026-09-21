@@ -159,4 +159,18 @@
   <p class="droits">Visuels, textes et personnages © BDouin éditions. Ils sont mis à disposition des libraires et distributeurs pour la communication et la promotion commerciale des titres Foulane Adventures uniquement. Toute autre utilisation, modification ou reproduction requiert l'accord écrit de l'éditeur.</p>
 </main>
 <footer><img src="web/logo-bdouin.png" alt="BDouin éditions">BDouin éditions · Foulane Adventures · kit libraire</footer>
+<script>
+(function(){
+  var HUB="https://bdouin-hub-production.up.railway.app/t", KIT="foulaneavT1-T2";
+  var lib="";
+  try{
+    var q=new URLSearchParams(location.search).get("l");
+    if(q){lib=q.slice(0,60);localStorage.setItem("kit_lib_"+KIT,lib);}
+    else{lib=localStorage.getItem("kit_lib_"+KIT)||"";}
+  }catch(e){}
+  function t(e){try{var i=new Image();i.src=HUB+"?k="+KIT+"&l="+encodeURIComponent(lib)+"&e="+encodeURIComponent(e)+"&r="+encodeURIComponent(document.referrer||"")+"&_="+Date.now();}catch(x){}}
+  t("visite");
+  document.addEventListener("click",function(ev){var a=ev.target.closest&&ev.target.closest("a[download]");if(a){var f=(a.getAttribute("href")||"").split("/").pop();t("dl:"+f);}});
+})();
+</script>
 </body></html>
