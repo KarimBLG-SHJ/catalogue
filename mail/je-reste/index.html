@@ -21,4 +21,12 @@ small{display:block;color:#5a6b78;font-size:14px;margin-top:20px}
 <p style="margin:0;font-size:15px">À saisir dans le panier sur <a href="https://www.bdouin.com/fr/famille-foulane/68-famille-foulane-tome-1-le-robot-intelligent-9789998797871.html" style="color:#2C4B8D">bdouin.com</a>. Pour les 500 premiers lecteurs, jusqu’au 8 novembre.</p></div>
 <p>La Famille Foulane se lit seul à partir de 8 ans.</p>
 <small>BDouin éditions · Hoo-Pow S.à r.l. · 3 rue des Girondins · L-1626 Luxembourg</small>
-</main></body></html>
+</main><script>
+(function(){var T="https://bdouin-hub-production.up.railway.app/t?k=je-reste";
+var l=new URLSearchParams(location.search).get("l")||"";
+function t(e){var i=new Image();i.src=T+"&l="+encodeURIComponent(l)+"&e="+encodeURIComponent(e)+"&r="+encodeURIComponent(document.referrer)+"&_="+Date.now();}
+t("visite");
+document.querySelectorAll("a").forEach(function(a){a.addEventListener("click",function(){t(a.href.indexOf(".pdf")>-1?"dl:chapitre1":"clic:boutique");});});
+})();
+</script>
+</body></html>
